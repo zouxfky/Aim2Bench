@@ -1,0 +1,40 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/relation/reply.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "vertex": {
+        "class": "Reply"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Reply",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Reply",
+          "fields": [
+            "reply_id:string"
+          ],
+          "type": "UNIQUE"
+        }
+      ]
+    }
+  }
+}

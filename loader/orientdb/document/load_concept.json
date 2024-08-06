@@ -1,0 +1,40 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/document/concept.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "vertex": {
+        "class": "Concept"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Concept",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Concept",
+          "fields": [
+            "concept_id:string"
+          ],
+          "type": "UNIQUE"
+        }
+      ]
+    }
+  }
+}

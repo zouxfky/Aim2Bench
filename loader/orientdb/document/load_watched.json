@@ -1,0 +1,41 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/document/user_video.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "command": {
+        "command": "Insert into Watched set user_id = '${input.user_id}',seq = ${input.seq}",
+        "output": "debug"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Watched",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Watched",
+          "fields": [
+            "user_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

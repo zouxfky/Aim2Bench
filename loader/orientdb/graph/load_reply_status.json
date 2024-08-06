@@ -1,0 +1,70 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/graph/user_reply.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "merge": {
+        "joinFieldName": "user_id",
+        "lookup": "User.user_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+    {
+      "vertex": {
+        "class": "User"
+      }
+    },
+    {
+      "edge": {
+        "class": "Reply_status",
+        "lookup": "Reply.reply_id",
+        "joinFieldName": "reply_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "User",
+          "extends": "V"
+        },
+        {
+          "name": "Reply",
+          "extends": "V"
+        },
+        {
+          "name": "Reply_status",
+          "extends": "E"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "User",
+          "fields": [
+            "user_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+        {
+          "class": "Reply",
+          "fields": [
+            "reply_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/graph/course_comment.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "merge": {
+        "joinFieldName": "course_id",
+        "lookup": "Course.course_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+    {
+      "vertex": {
+        "class": "Course"
+      }
+    },
+    {
+      "edge": {
+        "class": "Course_commented",
+        "joinFieldName": "comment_id",
+        "lookup": "Comment.comment_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Course",
+          "extends": "V"
+        },
+        {
+          "name": "Comment",
+          "extends": "V"
+        },
+        {
+          "name": "Course_commented",
+          "extends": "E"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Course",
+          "fields": [
+            "course_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+        {
+          "class": "Comment",
+          "fields": [
+            "comment_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/relation/teacher.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "vertex": {
+        "class": "Teacher"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Teacher",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Teacher",
+          "fields": [
+            "teacher_id:string"
+          ],
+          "type": "UNIQUE"
+        }
+      ]
+    }
+  }
+}

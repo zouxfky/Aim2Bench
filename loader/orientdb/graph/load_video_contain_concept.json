@@ -1,0 +1,70 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/graph/video_concept.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "merge": {
+        "joinFieldName": "video_id",
+        "lookup": "Video.video_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+    {
+      "vertex": {
+        "class": "Video"
+      }
+    },
+    {
+      "edge": {
+        "class": "Video_contain_concept",
+        "joinFieldName": "concept_id",
+        "lookup": "Concept.concept_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Video",
+          "extends": "V"
+        },
+        {
+          "name": "Concept",
+          "extends": "V"
+        },
+        {
+          "name": "Video_contain_concept",
+          "extends": "E"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Video",
+          "fields": [
+            "video_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+        {
+          "class": "Concept",
+          "fields": [
+            "concept_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

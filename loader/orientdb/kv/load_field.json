@@ -1,0 +1,41 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/kv/course_field.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "command": {
+        "command": "Insert into Field set course_id = '${input.course_id}',field_list = ${input.field_list}",
+        "output": "debug"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Field",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Field",
+          "fields": [
+            "course_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

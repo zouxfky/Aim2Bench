@@ -1,0 +1,70 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/graph/course_teacher.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "merge": {
+        "joinFieldName": "course_id",
+        "lookup": "Course.course_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+    {
+      "vertex": {
+        "class": "Course"
+      }
+    },
+    {
+      "edge": {
+        "class": "Taughtby",
+        "joinFieldName": "teacher_id",
+        "lookup": "Teacher.teacher_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Course",
+          "extends": "V"
+        },
+        {
+          "name": "Teacher",
+          "extends": "V"
+        },
+        {
+          "name": "Taughtby",
+          "extends": "E"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Course",
+          "fields": [
+            "course_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+        {
+          "class": "Teacher",
+          "fields": [
+            "teacher_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/relation/user.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "vertex": {
+        "class": "User"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "User",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "User",
+          "fields": [
+            "user_id:string"
+          ],
+          "type": "UNIQUE"
+        }
+      ]
+    }
+  }
+}

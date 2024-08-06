@@ -1,0 +1,40 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/relation/comment.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "vertex": {
+        "class": "Comment"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Comment",
+          "extends": "V"
+        }
+      ],
+      "indexes": [
+        {
+          "class": "Comment",
+          "fields": [
+            "comment_id:string"
+          ],
+          "type": "UNIQUE"
+        }
+      ]
+    }
+  }
+}

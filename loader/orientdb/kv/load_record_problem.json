@@ -1,0 +1,41 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/kv/user_problem.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "command": {
+        "command": "Insert into Record_problem set user_id = '${input.user_id}',problem = ${input.problem}",
+        "output": "debug"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Record_problem",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Record_problem",
+          "fields": [
+            "user_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

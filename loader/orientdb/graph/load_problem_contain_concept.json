@@ -1,0 +1,70 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/graph/problem_concept.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "merge": {
+        "joinFieldName": "problem_id",
+        "lookup": "Problem.problem_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+    {
+      "vertex": {
+        "class": "Problem"
+      }
+    },
+    {
+      "edge": {
+        "class": "Problem_contain_concept",
+        "joinFieldName": "concept_id",
+        "lookup": "Concept.concept_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Problem",
+          "extends": "V"
+        },
+        {
+          "name": "Concept",
+          "extends": "V"
+        },
+        {
+          "name": "Problem_contain_concept",
+          "extends": "E"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Problem",
+          "fields": [
+            "problem_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+        {
+          "class": "Concept",
+          "fields": [
+            "concept_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

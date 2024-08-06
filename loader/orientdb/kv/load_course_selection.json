@@ -1,0 +1,41 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/kv/user_course.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "command": {
+        "command": "Insert into Course_selection set user_id= '${input.user_id}',course = ${input.course}",
+        "output": "debug"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Course_selection",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Course_selection",
+          "fields": [
+            "user_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/graph/concept_prerequisites.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "merge": {
+        "joinFieldName": "start_id",
+        "lookup": "Concept.concept_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+    {
+      "vertex": {
+        "class": "Concept"
+      }
+    },
+    {
+      "edge": {
+        "class": "concept_prerequisites",
+        "joinFieldName": "end_id",
+        "lookup": "Concept.concept_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Concept",
+          "extends": "V"
+        },
+        {
+          "name": "concept_prerequisites",
+          "extends": "E"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Concept",
+          "fields": [
+            "concept_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

@@ -1,0 +1,70 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/graph/comment_reply.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": "|"
+    }
+  },
+  "transformers": [
+    {
+      "merge": {
+        "joinFieldName": "comment_id",
+        "lookup": "Comment.comment_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+    {
+      "vertex": {
+        "class": "Comment"
+      }
+    },
+    {
+      "edge": {
+        "class": "Comment_reply",
+        "joinFieldName": "reply_id",
+        "lookup": "Reply.reply_id",
+        "unresolvedLinkAction": "ERROR"
+      }
+    },
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Comment",
+          "extends": "V"
+        },
+        {
+          "name": "Reply",
+          "extends": "V"
+        },
+        {
+          "name": "Comment_reply",
+          "extends": "E"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Comment",
+          "fields": [
+            "comment_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+        {
+          "class": "Reply",
+          "fields": [
+            "reply_id:string"
+          ],
+          "type": "UNIQUE"
+        },
+      ]
+    }
+  }
+}

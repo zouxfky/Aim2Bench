@@ -1,0 +1,42 @@
+{
+  "source": {
+    "file": {
+      "path": "../../../generator/result/document/video.csv"
+    }
+  },
+  "extractor": {
+    "csv": {
+      "separator": ","
+    }
+  },
+  "transformers": [
+    {
+      "command": {
+        "command": "Insert into Video set video_id = '${input.video_id}',name = '${input.name}',start = ${input.start},end = ${input.end},text = ${input.text}",
+        "output": "debug",
+        "unresolvedLinkAction": "SKIP"
+      }
+    }
+  ],
+  "loader": {
+    "orientdb": {
+      "dbURL": "plocal:/opt/orientdb/databases/benchmark",
+      "dbType": "graph",
+      "classes": [
+        {
+          "name": "Video",
+          "extends": "V"
+        },
+      ],
+      "indexes": [
+        {
+          "class": "Video",
+          "fields": [
+            "video_id:string"
+          ],
+          "type": "UNIQUE"
+        }
+      ]
+    }
+  }
+}
